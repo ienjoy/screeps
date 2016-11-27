@@ -32,14 +32,14 @@ var roleRepair = require('role.repair');
 
 // GLOBALS I GUESS
 
-totalNumberOfDudes = 0;
-frustrationLevel = "high";
+var totalNumberOfDudes = 0;
+var frustrationLevel = "high";
 
 module.exports.loop = function () {
 
     // debugging
     console.log('totalNumberOfDudes is '+totalNumberOfDudes);
-    console.log('updated'+totalNumberOfDudes);
+    console.log('blaaaaaaaa');
     
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
@@ -66,7 +66,7 @@ module.exports.loop = function () {
     }else if (upgraders.length < 5) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newName);
-    }else if (miners.length < 0) {
+    }else if (miners.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,MOVE], undefined, {role: 'miner'});
         console.log('Spawning new miner: ' + newName);
     }else if (smarterbuilders.length < 4) {

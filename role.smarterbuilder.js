@@ -22,8 +22,8 @@ var roleSmarterbuilder = {
 	    }
 	    else {
 	        
-	        console.log('bored');
-	        totalNumberOfDudes++;
+	        // console.log('bored');
+	        // totalNumberOfDudes++;
 	        
 	        // let's see if we have any containers
 	        var containers = creep.room.find(FIND_STRUCTURES, {
@@ -40,14 +40,11 @@ var roleSmarterbuilder = {
                     creep.moveTo(source);
                 }
             }else{ // if we don't have a container, just be a normal miner instead
-                console.log('No more container');
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
             }    
-            
-	        
 	    }
 	}
 };

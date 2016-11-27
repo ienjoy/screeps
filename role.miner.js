@@ -6,12 +6,11 @@ var roleMiner = { /** @param {Creep} creep **/
             }
         });
         if (targets.length > 0) {
-            if (creep.pos.getRangeTo(targets[1]) == 0) {
+            if (creep.pos.getRangeTo(targets[0]) == 0) {
                 var source = creep.pos.findClosestByPath(FIND_SOURCES);
-                console.log('I am at '+source);
-               	creep.memory.sourceId = source.id;
+                creep.harvest(source);
             } else {
-                creep.moveTo(targets[1]);
+                creep.moveTo(targets[0]);
             }
         }
     }
