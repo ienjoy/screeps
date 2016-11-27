@@ -28,7 +28,7 @@ var roleSmarterbuilder = {
 	        // let's see if we have any containers
 	        var containers = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > 0);
+                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > 500);
                 }
             });
             var source = creep.pos.findClosestByPath(containers);

@@ -4,7 +4,7 @@
 
 * gotta kill off builder. he's not important anymore
 * repair sucks right now, should I just remove it?
-* figure out what's going on with github
+
 
 */
 
@@ -35,11 +35,27 @@ var roleRepair = require('role.repair');
 var totalNumberOfDudes = 0;
 var frustrationLevel = "high";
 
+// THINGS
+
+Object.defineProperty(RoomPosition.prototype, "isOccupied", {
+	enumerable: true,
+	get: function() {
+		return(Game.rooms[this.roomName].lookForAt(LOOK_CREEPS,this.x,this.y).length > 0);
+	}
+});
+
 module.exports.loop = function () {
 
+	// clearing memory
+	for(var name in Memory.creeps) {
+        if(!Game.creeps[name]) {
+            delete Memory.creeps[name];
+            console.log('Clearing non-existing creep memory:', name);
+        }
+    }
+    
     // debugging
     console.log('totalNumberOfDudes is '+totalNumberOfDudes);
-    console.log('blaaaaaaaa');
     
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
@@ -66,7 +82,7 @@ module.exports.loop = function () {
     }else if (upgraders.length < 5) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newName);
-    }else if (miners.length < 1) {
+    }else if (miners.length < 3) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,MOVE], undefined, {role: 'miner'});
         console.log('Spawning new miner: ' + newName);
     }else if (smarterbuilders.length < 4) {
@@ -75,9 +91,6 @@ module.exports.loop = function () {
     }else if (repairs.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'repair'});
         console.log('Spawning new repair: ' + newName);
-    }else if (builders.length < 0) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
-        console.log('Spawning new builder: ' + newName);
     }  
     
 
