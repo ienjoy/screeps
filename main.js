@@ -1,4 +1,27 @@
+// ################################# 
+// TODO
+/*
+
+* gotta kill off builder. he's not important anymore
+* repair sucks right now, should I just remove it?
+
+
+*/
+
+
+// ################################# 
 // ROLES
+/*
+
+Here we're setting up all the different roles
+
+* Harvester moves energy from energy source to spawn point
+* Upgrader moves energy from energy source to controller
+* Builder moves energy from energy source to thing we're building
+* Miner pulls energy from energy source, doesn't move, and drops into a container
+* Repair should repair, in theory. Not sure if it's working though
+
+*/
 
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
@@ -10,12 +33,13 @@ var roleRepair = require('role.repair');
 // GLOBALS I GUESS
 
 totalNumberOfDudes = 0;
-
+frustrationLevel = "high";
 
 module.exports.loop = function () {
 
     // debugging
     console.log('totalNumberOfDudes is '+totalNumberOfDudes);
+    console.log('updated'+totalNumberOfDudes);
     
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
