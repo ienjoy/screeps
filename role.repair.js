@@ -1,20 +1,21 @@
 var roleRepair = {
-    
-run: function(creep) {
 
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //Harvesting complete.  Reinit and distribute to task
-            
-            creep.memory.working = true;
-            creep.memory.harSource = -1;
-            
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //Search for structure with less then max energy
-            //////pos.findClosestByPath //creep.room.find  //structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_CONTAINER ||
-            //structure.structureType == STRUCTURE_ROAD &&
-            var percent = 0;
+    /** @param {Creep} creep **/
+    run: function(creep) {
+
+	    if(creep.memory.building && creep.carry.energy == 0) {
+            creep.memory.building = false;
+            creep.say('harvesting');
+	    }
+	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
+	        creep.memory.building = true;
+	        creep.say('building');
+	    }
+
+	    if(creep.memory.building) {
+	        var percent = 0;
             if (creep.room.find(FIND_CONSTRUCTION_SITES) != null) {
-                percent=0.5;
+                percent=0.000005;
             } else {
                 percent=0.9;
             }
@@ -24,53 +25,51 @@ run: function(creep) {
                                                                 }
                                                             });
             if(target != null) {
+            
+            	
+            	
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //Damaged structure found, move and repair
-                var resp = creep.repair(target)
+                var resp = creep.repair(target);
+                
+                // console.log(resp);
+                creep.moveTo(target);
+                
                 if(resp == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 } else if (resp == OK) {
-                    creep.say('Repairing')
+                    creep.say('R')
                 }
-            } else {
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //Damaged structure not found, try to build, and as last resort, move to spawn point
-                var targetTwo = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-                if (targetTwo == null) {
-                    var moveToConsSpawn = ""
-                    for(var rm in Game.rooms){
-                        var curRoom = Game.rooms[rm]
-                        var spawn = Game.rooms[rm].find(FIND_CONSTRUCTION_SITES, { filter: (structure) => { return (structure.structureType == STRUCTURE_SPAWN); } })
-                        if (spawn[0] != null) {
-                            moveToConsSpawn = spawn[0]
-                        }
-                    }
-                    if (moveToConsSpawn != ""){
-                        console.log(creep.name + ' IS HEADING TO REPAIR NEW CONTROLLER!!! (lookout!)')
-                        
-                        creep.moveTo(moveToConsSpawn, {avoid: helper.getAvoidedArea(creep.room)});
-                        creep.moveTo(moveToConsSpawn, {costCallback: function(roomName, costMatrix) {
-                                                            var avo = helper.getAvoidedArea(creep.room);
-                                                            roomName = creep.room.name;
-                                                            for (var p in avo){
-                                                                //console.log(avo[p].x + ', ' + avo[p].y);
-                                                                costMatrix.set(avo[p].x,avo[p].y,255);
-                                                            }
-                                                        }
-                            
-                        })
-                    }
-                } else {
-                    creep.say('building')
-                    if(creep.build(targetTwo) == ERR_NOT_IN_RANGE)
-                    {
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        //Buildable structures found, deploy
-                        creep.moveTo(targetTwo);
-                    }
+            
+	    }
+	    }else {
+	        
+	        // console.log('bored');
+	        // totalNumberOfDudes++;
+	        
+	        // let's see if we have any containers
+	        var containers = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > 500);
                 }
-            }
-        }
+            });
+            var source = creep.pos.findClosestByPath(containers);
+            
+            // ok, if we found a container, use it
+            if (source)
+            {
+                if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
+            }else{ // if we don't have a container, just be a normal miner instead
+                var sources = creep.room.find(FIND_SOURCES);
+                if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0]);
+                }
+            }    
+	    }
+	}
+
 };
 
 module.exports = roleRepair;

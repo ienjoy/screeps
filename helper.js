@@ -21,26 +21,26 @@ module.exports = {
     
     buildRoads: function(curRoom){
         /*
-        ├ 	OwnedStructure 
-        │ 	├ 	StructureController --yes
-        │ 	├ 	StructureExtension --yes
-        │ 	├ 	StructureExtractor --yes
-        │ 	├ 	StructureKeeperLair --no
-        │ 	├ 	StructureLab --yes
-        │ 	├ 	StructureLink --yes
-        │ 	├ 	StructureNuker --yes
-        │ 	├ 	StructureObserver --no
-        │ 	├ 	StructurePowerBank --no
-        │ 	├ 	StructurePowerSpawn --no
-        │ 	├ 	StructureRampart --no
-        │ 	├ 	StructureSpawn --yes
-        │ 	├ 	StructureStorage --yes
-        │ 	├ 	StructureTerminal --yes
-        │ 	└ 	StructureTower --yes
-        ├ 	StructureContainer --yes
-      	├ 	StructurePortal  --no
-      	├ 	StructureRoad --no
-      	└ 	StructureWall --no
+        â 	OwnedStructure 
+        â 	â 	StructureController --yes
+        â 	â 	StructureExtension --yes
+        â 	â 	StructureExtractor --yes
+        â 	â 	StructureKeeperLair --no
+        â 	â 	StructureLab --yes
+        â 	â 	StructureLink --yes
+        â 	â 	StructureNuker --yes
+        â 	â 	StructureObserver --no
+        â 	â 	StructurePowerBank --no
+        â 	â 	StructurePowerSpawn --no
+        â 	â 	StructureRampart --no
+        â 	â 	StructureSpawn --yes
+        â 	â 	StructureStorage --yes
+        â 	â 	StructureTerminal --yes
+        â 	â 	StructureTower --yes
+        â 	StructureContainer --yes
+      	â 	StructurePortal  --no
+      	â 	StructureRoad --no
+      	â 	StructureWall --no
       	
       	also include sources
         */

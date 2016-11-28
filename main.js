@@ -29,11 +29,13 @@ var roleBuilder = require('role.builder');
 var roleMiner = require('role.miner');
 var roleSmarterbuilder = require('role.smarterbuilder');
 var roleRepair = require('role.repair');
+var roleRacecar = require('role.racecar');
 
 // GLOBALS I GUESS
 
-var totalNumberOfDudes = 0;
 var frustrationLevel = "high";
+var harvesterTotal = 0;
+
 
 // THINGS
 
@@ -50,49 +52,101 @@ module.exports.loop = function () {
 	for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
+            console.log('Removing', name);
+            statusUpdate();
         }
     }
     
     // debugging
-    console.log('totalNumberOfDudes is '+totalNumberOfDudes);
     
-    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');   
+    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');        
+    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');    
+    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'); 
+    var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');    
+    var racecars = _.filter(Game.creeps, (creep) => creep.memory.role == 'racecar');
+
+    /*
     console.log('Harvesters: ' + harvesters.length);
-    
-    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     console.log('Upgraders: ' + upgraders.length);
-    
-    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    console.log('Builders: ' + builders.length);
-    
-    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');
     console.log('Miners: ' + miners.length);
-    
-    var smarterbuilders = _.filter(Game.creeps, (creep) => creep.memory.role == 'smarterbuilder');
     console.log('Smarter builders: ' + smarterbuilders.length);
-    
-    var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
     console.log('Repairs: ' + repairs.length);
+    console.log('Racecars: ' + racecars.length);
+    */
     
+    Memory.harvesterTotal = harvesters.length;
+    Memory.upgraderTotal = upgraders.length;
+    Memory.minerTotal = miners.length;
+    Memory.buildersTotal = builders.length;
+    Memory.repairsTotal = repairs.length;
+    Memory.racecarsTotal = racecars.length;
+ 
+    // need at least one
     
-    if (harvesters.length < 2) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
-        console.log('Spawning new harvesters: ' + newName);
-    }else if (upgraders.length < 5) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
-        console.log('Spawning new upgrader: ' + newName);
-    }else if (miners.length < 3) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,MOVE], undefined, {role: 'miner'});
-        console.log('Spawning new miner: ' + newName);
-    }else if (smarterbuilders.length < 4) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'smarterbuilder'});
-        console.log('Spawning new smarterbuilder: ' + newName);
-    }else if (repairs.length < 1) {
+    if (miners.length < 1) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "miner");
+    }else if (harvesters.length < 3) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+        born(newName, "harvester");        
+    }else if (upgraders.length < 1) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "upgrader");
+    }else if (builders.length < 1) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+		born(newName, "builder");        
+    }else if (repairs.length < 3) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'repair'});
-        console.log('Spawning new repair: ' + newName);
-    }  
+        born(newName, "repair");
+    }else if (racecars.length < 0) {
+        var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE], undefined, {role: 'racecar'});
+        born(newName, "racecar");
+
+   	
+	// ok here are the real numbers we like
+   
+   	}else if (harvesters.length < 6) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
+        born(newName, "harvester");        
+   	}else if (upgraders.length < 5) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "upgrader");    
+    }else if (miners.length < 3) {
+        // var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "miner");
+    }else if (builders.length < 3) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
+		born(newName, "builder");        
+    }else if (repairs.length < 10) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair'});
+        born(newName, "repair");
+    }    
     
+    
+    
+    // FUNCTIONS
+    
+    function born(name, type){
+    	if (typeof name === 'string' || name instanceof String)
+        {
+        	console.log('Coming soon: a new '+type+" named " + name);
+        	statusUpdate();
+        }
+    }
+
+    function statusUpdate()
+    {
+    	console.log(
+        	Memory.harvesterTotal+" harvesters, "+
+        	Memory.upgraderTotal+" upgraders, "+
+        	Memory.minerTotal+" miner, "+
+        	Memory.buildersTotal+" builders, "+
+        	Memory.repairsTotal+" repairs, and "+
+        	Memory.racecarsTotal+" racecars."
+        	);
+    }
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -118,5 +172,9 @@ module.exports.loop = function () {
             roleRepair.run(creep);
         }
         
+        if(creep.memory.role == 'racecar') {
+            roleRacecar.run(creep);
+        }
+
     }
 }
