@@ -57,8 +57,19 @@ module.exports.loop = function () {
         }
     }
     
-    // debugging
+    // showing energy    
+    for (var roomName in Game.rooms) {
+    let room = Game.rooms[roomName];
+    if (!room.controller || !room.controller.my) continue;
+    	console.log("Room", room.name, "Energy", room.energyAvailable);
+	}
+
+    // how old is everyone?    
+    for(var name in Memory.creeps) {
+        // console.log(name.ticksToLive);
+    }
     
+    // debugging    
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');   
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');        
     var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');    
@@ -68,12 +79,7 @@ module.exports.loop = function () {
     var racecars = _.filter(Game.creeps, (creep) => creep.memory.role == 'racecar');
 
 
-	for (var roomName in Game.rooms) {
-    let room = Game.rooms[roomName];
-    if (!room.controller || !room.controller.my) continue;
-    	console.log("Room", room.name, "Energy", room.energyAvailable);
-	}
-
+	
     /*
     console.log('Harvesters: ' + harvesters.length);
     console.log('Upgraders: ' + upgraders.length);
@@ -157,7 +163,7 @@ module.exports.loop = function () {
     }else if (minersouth.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
        	born(newName, "miner");
-    }else if (harvesters.length < 3) {
+    }else if (harvesters.length < 4) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
    	}else if (upgraders.length < 6) {
