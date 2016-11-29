@@ -32,9 +32,9 @@ var roleRepair = require('role.repair');
 var roleRacecar = require('role.racecar');
 
 // GLOBALS I GUESS
+Memory.needminer = false;
+Memory.needminersouth = false;
 
-var frustrationLevel = "high";
-var harvesterTotal = 0;
 
 
 // THINGS
@@ -61,13 +61,31 @@ module.exports.loop = function () {
     for (var roomName in Game.rooms) {
     let room = Game.rooms[roomName];
     if (!room.controller || !room.controller.my) continue;
-    	console.log("Room", room.name, "Energy", room.energyAvailable);
+    	// console.log("Room", room.name, "Energy", room.energyAvailable);
 	}
 
     // how old is everyone?    
-    for(var name in Memory.creeps) {
-        // console.log(name.ticksToLive);
+    for (var creepName in Game.creeps)
+    {
+    	let creep = Game.creeps[creepName];
+    	if (creep.ticksToLive < 50)
+    	{
+			console.log(creep.name, "("+creep.memory.role+")", "will die in", creep.ticksToLive,"ticks");
+    		// if we know someone is going to die soon, we can get ready with the replacement
+	    	// let's start with a miner
+	    	if (creep.memory.role == "miner")
+	    	{
+	    		Memory.needminer = true;
+	    	}else if (creep.memory.role == "minersouth"){
+	    		Memory.needminersouth = true;
+	    	}
+    	}
+    	
+    	
+    	
     }
+    
+    
     
     // debugging    
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');   
@@ -97,7 +115,7 @@ module.exports.loop = function () {
     Memory.repairsTotal = repairs.length;
     Memory.racecarsTotal = racecars.length;
  
-    // need at least one
+
     
     
     /*
@@ -113,7 +131,6 @@ module.exports.loop = function () {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,MOVE], undefined, {role: 'miner'});
        	born(newName, "miner");
     }else if (minersouth.length < 0) {
-        // var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
         var newName = Game.spawns['Spawn1'].createCreep([WORK,MOVE], undefined, {role: 'minersouth'});
        	born(newName, "minersouth");   	
     }else if (harvesters.length < 3) {
@@ -156,13 +173,14 @@ module.exports.loop = function () {
     */
     
     // post-building
-    }else if (miners.length < 3) {
-        // var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+    }else if (miners.length < 3 || Memory.needminer == true) { // needminer queues the next miner right on time
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
        	born(newName, "miner");
-    }else if (minersouth.length < 1) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
-       	born(newName, "miner");
+    	Memory.needminer = false;  // ok we're good again
+    }else if (minersouth.length < 1 || Memory.needminersouth == true) {
+		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
+       	born(newName, "minersouth");
+       	Memory.needminersouth = false; // ok we're good again
     }else if (harvesters.length < 4) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
