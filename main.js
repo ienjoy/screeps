@@ -71,7 +71,7 @@ module.exports.loop = function () {
 	for (var roomName in Game.rooms) {
     let room = Game.rooms[roomName];
     if (!room.controller || !room.controller.my) continue;
-    	// console.log("Room", room.name, "Energy", room.energyAvailable);
+    	console.log("Room", room.name, "Energy", room.energyAvailable);
 	}
 
     /*
@@ -126,24 +126,49 @@ module.exports.loop = function () {
         var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE], undefined, {role: 'racecar'});
         born(newName, "racecar");
 
-	}else if (builders.length < 4) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
-		born(newName, "big builder");            
-	}else if (harvesters.length < 4) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
-        born(newName, "big harvester");        
-   	 }else if (miners.length < 3) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
-       	born(newName, "v3 big miner");
-     }else if (minersouth.length < 1) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
-       	born(newName, "v3 big southminer");     
-     }else if (upgraders.length < 6) {
+	// ok here are the real numbers we like
+	// (building!)
+   
+   	/*
+   	}else if (harvesters.length < 6) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
+        born(newName, "harvester");        
+   	}else if (upgraders.length < 5) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
-		born(newName, "big upgrader");    
-   }else if (repairs.length < 2) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'repair'});
-        born(newName, "big repair");
+		born(newName, "upgrader");    
+    }else if (miners.length < 3) {
+        // var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "miner");
+    }else if (builders.length < 3) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
+		born(newName, "builder");        
+    }else if (repairs.length < 10) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair'});
+        born(newName, "repair");
+    }    
+    */
+    
+    // post-building
+    }else if (miners.length < 3) {
+        // var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "miner");
+    }else if (minersouth.length < 1) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
+       	born(newName, "miner");
+    }else if (harvesters.length < 3) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
+        born(newName, "harvester");        
+   	}else if (upgraders.length < 6) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "upgrader"); 
+    }else if (builders.length < 6) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
+		born(newName, "builder");        
+    }else if (repairs.length < 3) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair'});
+        born(newName, "repair");
     }  
     
 	   	

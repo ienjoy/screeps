@@ -23,7 +23,7 @@ var roleUpgrader = {
 	        // let's see if we have any containers
 	        var containers = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > 450);
+                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > 1600);
                 }
             });
             var source = creep.pos.findClosestByPath(containers);
@@ -35,12 +35,15 @@ var roleUpgrader = {
                     creep.moveTo(source);
                 }
             }else{ // if we don't have a container, just be a normal miner instead
+               
+               /*
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
-            }    
-	    
+               */ 
+	    	creep.moveTo(Game.flags.boredUpgraders.pos);                
+            }    	    
         }
 	}
 };

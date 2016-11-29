@@ -15,15 +15,17 @@ var roleRepair = {
 	    if(creep.memory.building) {
 	        var percent = 0;
             if (creep.room.find(FIND_CONSTRUCTION_SITES) != null) {
-                percent=0.000005;
+                // percent=0.0001; // this is better for walls
+                percent=0.75; // this is my container thing
             } else {
                 percent=0.9;
             }
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: (structure) => 
-                                                                {
-                                                                    return (structure.hits < (structure.hitsMax * percent));
-                                                                }
-                                                            });
+				{
+					return (structure.hits < (structure.hitsMax * percent));
+					// return (structure.hits < 1);
+				}
+			});
             if(target != null) {
             
             	
@@ -41,7 +43,12 @@ var roleRepair = {
                     creep.say('R')
                 }
             
+	    }else{
+	    	creep.say('bored');
+	    	creep.moveTo(Game.flags.boredRepairs.pos);
 	    }
+	    
+	    
 	    }else {
 	        
 	        // console.log('bored');
@@ -50,7 +57,7 @@ var roleRepair = {
 	        // let's see if we have any containers
 	        var containers = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > 500);
+                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > creep.carryCapacity);
                 }
             });
             var source = creep.pos.findClosestByPath(containers);
@@ -62,10 +69,13 @@ var roleRepair = {
                     creep.moveTo(source);
                 }
             }else{ // if we don't have a container, just be a normal miner instead
+                /*
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
+                */
+                creep.moveTo(Game.flags.boredRepairs.pos);
             }    
 	    }
 	}
