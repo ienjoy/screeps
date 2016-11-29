@@ -21,26 +21,26 @@ module.exports = {
     
     buildRoads: function(curRoom){
         /*
-        â 	OwnedStructure 
-        â 	â 	StructureController --yes
-        â 	â 	StructureExtension --yes
-        â 	â 	StructureExtractor --yes
-        â 	â 	StructureKeeperLair --no
-        â 	â 	StructureLab --yes
-        â 	â 	StructureLink --yes
-        â 	â 	StructureNuker --yes
-        â 	â 	StructureObserver --no
-        â 	â 	StructurePowerBank --no
-        â 	â 	StructurePowerSpawn --no
-        â 	â 	StructureRampart --no
-        â 	â 	StructureSpawn --yes
-        â 	â 	StructureStorage --yes
-        â 	â 	StructureTerminal --yes
-        â 	â 	StructureTower --yes
-        â 	StructureContainer --yes
-      	â 	StructurePortal  --no
-      	â 	StructureRoad --no
-      	â 	StructureWall --no
+        Ã¢ÂÂ 	OwnedStructure 
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureController --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureExtension --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureExtractor --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureKeeperLair --no
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureLab --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureLink --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureNuker --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureObserver --no
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructurePowerBank --no
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructurePowerSpawn --no
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureRampart --no
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureSpawn --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureStorage --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureTerminal --yes
+        Ã¢ÂÂ 	Ã¢ÂÂ 	StructureTower --yes
+        Ã¢ÂÂ 	StructureContainer --yes
+      	Ã¢ÂÂ 	StructurePortal  --no
+      	Ã¢ÂÂ 	StructureRoad --no
+      	Ã¢ÂÂ 	StructureWall --no
       	
       	also include sources
         */
