@@ -1,4 +1,6 @@
-var rolebuilder = {
+var roleThief = {
+
+
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -13,15 +15,16 @@ var rolebuilder = {
 	    }
 
 	    if(creep.memory.building) {
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+	        var targets = Game.rooms["W76N51"].find(FIND_CONSTRUCTION_SITES);
+	        
 	        
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
             }else{
-                	creep.moveTo(Game.flags.build.pos);
-                	creep.say('->');
+                	creep.moveTo(Game.flags.boredBuilders.pos);
+                	creep.say('bored');
                 }
 	    }
 	    else {
@@ -33,7 +36,7 @@ var rolebuilder = {
 	        var containers = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                     return (structure.structureType == STRUCTURE_CONTAINER) &&
-                    (structure.store[RESOURCE_ENERGY] > creep.carryCapacity - creep.carry.energy);
+                    (structure.store[RESOURCE_ENERGY] > 0);
                     // this is an interesting trick - it'll just keep pulling as long as it can
                 }
             });
@@ -53,12 +56,18 @@ var rolebuilder = {
                 }
                 */
                 // creep.say('miner plz');
-                creep.moveTo(Game.flags.boredBuilders.pos);
+                creep.moveTo(Game.flags.steal.pos);
             }    
 	    }
 	}
 };
 
-module.exports = rolebuilder;
 
 
+				         
+
+
+
+
+
+module.exports = roleThief;

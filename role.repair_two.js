@@ -1,4 +1,4 @@
-var roleRepair = {
+var roleRepair_two = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -16,7 +16,7 @@ var roleRepair = {
 	        var percent = 0;
             if (creep.room.find(FIND_CONSTRUCTION_SITES) != null) {
                 // percent=0.0001; // this is better for walls
-                percent=0.75; // this is my container thing
+                percent=0.1; // this is my container thing
             } else {
                 percent=0.9;
             }
@@ -24,11 +24,12 @@ var roleRepair = {
 				{
 					return ((structure.hits < (structure.hitsMax * percent) && structure.structureType 
 					!= STRUCTURE_WALL && structure.structureType != STRUCTURE_RAMPART));
-					// return (structure.hits < 1);
 				}
 			});
             if(target != null) {
             
+            	
+            	
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //Damaged structure found, move and repair
                 var resp = creep.repair(target);
@@ -44,7 +45,7 @@ var roleRepair = {
             
 	    }else{
 	    	creep.say('bored');
-	    	creep.moveTo(Game.flags.boredRepairs.pos);
+	    	creep.moveTo(Game.flags.boredRepairs_two.pos);
 	    }
 	    
 	    
@@ -74,11 +75,11 @@ var roleRepair = {
                     creep.moveTo(sources[0]);
                 }
                 */
-                creep.moveTo(Game.flags.boredRepairs.pos);
+                creep.moveTo(Game.flags.boredRepairs_two.pos);
             }    
 	    }
 	}
 
 };
 
-module.exports = roleRepair;
+module.exports = roleRepair_two;

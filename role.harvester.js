@@ -30,9 +30,7 @@ var roleHarvester = {
                     (structure.store[RESOURCE_ENERGY] > creep.carryCapacity);
                 }
             });
-            var source = creep.pos.findClosestByPath(containers);
-            
-            // let's make sure we have 3 places we can pull from
+            var source = creep.pos.findClosestByRange(containers);
             if (source)
             {
                 if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
