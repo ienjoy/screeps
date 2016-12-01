@@ -44,7 +44,7 @@ var roleRepair = {
             
 	    }else{
 	    	creep.say('bored');
-	    	creep.moveTo(Game.flags.boredRepairs.pos);
+	    	// creep.moveTo(Game.flags.boredRepairs.pos);
 	    }
 	    
 	    
@@ -74,7 +74,7 @@ var roleRepair = {
                     creep.moveTo(sources[0]);
                 }
                 */
-                creep.moveTo(Game.flags.boredRepairs.pos);
+                // creep.moveTo(Game.flags.boredRepairs.pos);
             }    
 	    }
 	}

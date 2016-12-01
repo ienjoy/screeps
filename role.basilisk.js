@@ -2,7 +2,7 @@ var roleBasilisk = { /** @param {Creep} creep **/
         run: function(creep) {
            
         
-        creep.moveTo(Game.flags.basilisk.pos);	   
+        creep.moveTo(Game.flags.attack.pos);	   
            
            
         let target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
