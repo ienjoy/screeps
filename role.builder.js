@@ -20,7 +20,7 @@ var rolebuilder = {
                     creep.moveTo(targets[0]);
                 }
             }else{
-                	creep.moveTo(Game.flags.build.pos);
+                	creep.moveTo(Game.flags.boredBuilders.pos);
                 	creep.say('->');
                 }
 	    }
@@ -47,13 +47,15 @@ var rolebuilder = {
                 }
             }else{ // if we don't have a container, just be a normal miner instead
                 
+                /*
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
-               
+               	*/
+               	
                 // creep.say('miner plz');
-                creep.moveTo(Game.flags.build.pos);
+                // creep.moveTo(Game.flags.boredBuilders.pos);
             }    
 	    }
 	}

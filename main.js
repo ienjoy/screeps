@@ -146,12 +146,12 @@ module.exports.loop = function () {
 	var harvesterCount = 4;
 	var minerCount = 3;
 	var minersouthCount = 1;
-	var miner_threeCount = 0;
+	var miner_threeCount = 2;
 	var upgraderCount = 6;
 	
 	// SUPPLEMENTAL
 	var repairCount = 2;
-	var repair_twoCount = 2;
+	var repair_twoCount = 1;
 	var wallrepairCount = 2;
 	var shuttleCount = 2;
 	var builderCount = 4;
@@ -159,7 +159,7 @@ module.exports.loop = function () {
 	// MILITARY
 	var healerCount = 0;
 	var demonCount = 0;
-	var basiliskCount = 0;
+	var basiliskCount = 3;
 	var dragonCount = 0;
 	
 

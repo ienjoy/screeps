@@ -1,5 +1,11 @@
 var roleRepair = {
 
+
+	/*
+	TODO:
+	Gotta make sure these guys don't stand on containers
+	*/
+	
     /** @param {Creep} creep **/
     run: function(creep) {
 
@@ -44,7 +50,7 @@ var roleRepair = {
             
 	    }else{
 	    	creep.say('bored');
-	    	// creep.moveTo(Game.flags.boredRepairs.pos);
+	    	creep.moveTo(Game.flags.boredRepairs.pos);
 	    }
 	    
 	    
@@ -74,7 +80,7 @@ var roleRepair = {
                     creep.moveTo(sources[0]);
                 }
                 */
-                // creep.moveTo(Game.flags.boredRepairs.pos);
+                creep.moveTo(Game.flags.boredRepairs.pos);
             }    
 	    }
 	}
