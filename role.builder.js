@@ -14,7 +14,6 @@ var rolebuilder = {
 
 	    if(creep.memory.building) {
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-	        
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
@@ -23,8 +22,7 @@ var rolebuilder = {
                 	creep.moveTo(Game.flags.boredBuilders.pos);
                 	creep.say('->');
                 }
-	    }
-	    else {
+	    }else{
 	        
 	        // console.log('bored');
 	        // totalNumberOfDudes++;
@@ -56,6 +54,9 @@ var rolebuilder = {
                	
                 // creep.say('miner plz');
                 // creep.moveTo(Game.flags.boredBuilders.pos);
+                
+                // there's nothing for you, just go home and maybe there will be things there
+                creep.moveTo(Game.spawns['Spawn1'].pos);
             }    
 	    }
 	}

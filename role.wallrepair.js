@@ -1,4 +1,4 @@
-var roleRepair = {
+var roleWallrepair = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -44,7 +44,6 @@ var roleRepair = {
                 }
             
 	    }else{
-	    	creep.say('bored');
 	    	creep.moveTo(Game.flags.boredRepairs.pos);
 	    }
 	    
@@ -82,4 +81,4 @@ var roleRepair = {
 
 };
 
-module.exports = roleRepair;
+module.exports = roleWallrepair;

@@ -17,12 +17,12 @@ var roleMiner_three = { /** @param {Creep} creep **/
                 	creep.say(':)');
                     var sources = creep.room.find(FIND_SOURCES);
                     if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(Game.flags.build.pos);
+                        creep.moveTo(Game.flags.shuttle1_pickup.pos);
                     }
                 } else {
                 	var sources = creep.room.find(FIND_SOURCES);
                     if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(Game.flags.build.pos);
+                        creep.moveTo(Game.flags.shuttle1_pickup.pos);
                     }
                 }
             } else {

@@ -4,13 +4,13 @@ var roleMiner = { /** @param {Creep} creep **/
                 var targets_energy = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_CONTAINER) &&
-                            (structure.store[RESOURCE_ENERGY] < structure.storeCapacity) &&
                             (structure.pos.isOccupied == false);
                     }
                 });
                 // if we see an open source, great
                 if (targets_energy.length > 0) {
                 	creep.say(':)');
+                	// you've got to go get in position
                     var sources = creep.room.find(FIND_SOURCES);
                     if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sources[1]);

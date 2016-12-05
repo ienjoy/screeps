@@ -70,6 +70,14 @@ module.exports.loop = function () {
     }
     
     
+    // ARRAYS GO HERE
+
+	var heightList = ["short", "short", "short", "medium", "medium", "medium", "medium", "medium", "tall", "tall", "very tall"];
+	var countryList = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+	var eyecolorList = ["brown", "brown", "brown", "brown", "brown", "brown", "brown", "hazel", "hazel", "hazel", "blue", "blue", "green", "green", "silver", "amber"];
+	var hobbyList = ["3D printing", "Amateur radio", "Acting", "Baton twirling", "Board games", "Book restoration", "Cabaret", "Calligraphy", "Candle making", "Computer programming", "Coffee roasting", "Cooking", "Coloring", "Cosplaying", "Couponing", "Creative writing", "Crocheting", "Crossword puzzles", "Cryptography", "Dance", "Digital arts", "Drama", "Drawing", "Do it yourself", "Electronics", "Embroidery", "Fantasy Sports", "Fashion", "Fishkeeping", "Flower arranging", "Foreign language learning", "Tabletop Gaming", "Role-playing games", "Genealogy", "Glassblowing", "Gunsmithing", "Homebrewing", "Ice skating", "Jewelry making", "Jigsaw puzzles", "Juggling", "Knapping", "Knitting", "Kabaddi", "Knife making", "Kombucha Brewing", "Lacemaking", "Lapidary", "Lego building", "Lockpicking", "Lucid dreaming", "Machining", "Macrame", "Metalworking", "Magic", "Model building", "Listening to music", "Origami", "Painting", "Playing musical instruments", "Pet", "Poi", "Pottery", "Puzzles", "Quilting", "Reading", "Scrapbooking", "Sculpting", "Sewing", "Singing", "Sketching", "Soapmaking", "Stand-up comedy", "Tatting", "Table tennis", "Taxidermy", "Video gaming", "Watching movies", "Watching television", "Web surfing", "Whittling", "Wikipedia editing ", "Wood carving", "Woodworking", "Worldbuilding", "Writing", "Yoga", "Yo-yoing"];
+
+
     // safe mode
     
     
@@ -85,16 +93,16 @@ module.exports.loop = function () {
     for (var creepName in Game.creeps)
     {
     	let creep = Game.creeps[creepName];
-    	if (creep.ticksToLive < 15)
+    	if (creep.ticksToLive < 5)
     	{
 			console.log(creep.name, "("+creep.memory.role+")", "will die in", creep.ticksToLive,"ticks");
     		// if we know someone is going to die soon, we can get ready with the replacement
 	    	// let's start with a miner
 	    	if (creep.memory.role == "miner")
 	    	{
-	    		Memory.needminer = true;
+	    		// Memory.needminer = true;
 	    	}else if (creep.memory.role == "minersouth"){
-	    		Memory.needminersouth = true;
+	    		// Memory.needminersouth = true;
 	    	}
     	}	
     }
@@ -153,13 +161,13 @@ module.exports.loop = function () {
 	var repairCount = 2;
 	var repair_twoCount = 1;
 	var wallrepairCount = 2;
-	var shuttleCount = 2;
-	var builderCount = 4;
+	var shuttleCount = 0;
+	var builderCount = 3;
 	
 	// MILITARY
 	var healerCount = 0;
 	var demonCount = 0;
-	var basiliskCount = 3;
+	var basiliskCount = 0;
 	var dragonCount = 0;
 	
 
@@ -183,7 +191,7 @@ module.exports.loop = function () {
     }else if (upgraders.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
 		born(newName, "upgrader");
-    }else if (builders.length < 1) {
+    }else if (builders.length < 0) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
 		born(newName, "builder");        
 
@@ -206,15 +214,15 @@ module.exports.loop = function () {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
     }else if (miners.length < minerCount || Memory.needminer == true) { // needminer queues the next miner right on time
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
        	born(newName, "miner");
     	Memory.needminer = false;  // ok we're good again
     }else if (minersouth.length < minersouthCount || Memory.needminersouth == true) {
-		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
+		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
        	born(newName, "minersouth");
        	Memory.needminersouth = false; // ok we're good again
     }else if (miner_three.length < miner_threeCount || Memory.needminer_three == true) {
-		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner_three'});
+		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,MOVE,MOVE,MOVE], undefined, {role: 'miner_three'});
        	born(newName, "miner_three");
        	Memory.needminer_three = false; // ok we're good again
     }else if (repairs.length < repairCount) {
@@ -227,7 +235,7 @@ module.exports.loop = function () {
    		var newName = Game.spawns['Spawn1'].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'shuttle'});
 		born(newName, "shuttle"); 
    	}else if (upgraders.length < upgraderCount) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
 		born(newName, "upgrader"); 
     }else if (builders.length < builderCount) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
@@ -248,7 +256,12 @@ module.exports.loop = function () {
     function born(name, type){
     	if (typeof name === 'string' || name instanceof String)
         {
-        	console.log('Coming soon: a new '+type+" named " + name);
+        	var height = heightList[Math.floor(Math.random()*heightList.length)];
+			var country = countryList[Math.floor(Math.random()*countryList.length)];
+			var eyecolor = eyecolorList[Math.floor(Math.random()*eyecolorList.length)];
+			var hobby = hobbyList[Math.floor(Math.random()*hobbyList.length)];
+        	
+        	console.log('Coming soon: a new '+type+" named " + name +" from "+country+", with "+eyecolor+ " eyes, "+height+" sizem, and likes "+hobby);
         	statusUpdate();
         }
     }
@@ -336,3 +349,5 @@ module.exports.loop = function () {
 
     }
 }
+
+
