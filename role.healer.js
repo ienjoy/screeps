@@ -2,6 +2,7 @@ var roleHealer = { /** @param {Creep} creep **/
         run: function(creep) {
     
         creep.moveTo(Game.flags.attack.pos);			
+		
 		// heal myself when no one is around
 		var healtarget = creep.pos.findClosestByRange(FIND_MY_CREEPS, {
 			filter: function(object) {

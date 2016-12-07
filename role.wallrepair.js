@@ -22,7 +22,7 @@ var roleWallrepair = {
             }
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: (structure) => 
 				{
-					return ((structure.hits < (structure.hitsMax * percent) && structure.structureType == STRUCTURE_RAMPART));
+					return (structure.hits < (structure.hitsMax * percent) && (structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_WALL));
 					// return ((structure.hits < 1) && structure.structureType == STRUCTURE_RAMPART);
 				}
 			});

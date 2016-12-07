@@ -30,6 +30,8 @@ var roleBuilder = require('role.builder');
 var roleMiner = require('role.miner');
 var roleMinersouth = require('role.minersouth');
 var roleMiner_three = require('role.miner_three');
+var roleLinkminer = require('role.linkminer');
+var roleLinkharvester = require('role.linkharvester');
 var roleSmarterbuilder = require('role.smarterbuilder');
 var roleRepair = require('role.repair');
 var roleRepair_two = require('role.repair_two');
@@ -41,7 +43,7 @@ var roleBasilisk = require('role.basilisk');
 var roleDragon = require('role.dragon');
 var roleHealer = require('role.healer');
 var roleDemon = require('role.demon');
-
+var roleRacecar = require('role.racecar');
 
 // GLOBALS I GUESS
 Memory.needminer = false;
@@ -69,6 +71,14 @@ module.exports.loop = function () {
         }
     }
     
+	var linkFrom = Game.spawns.Spawn1.room.lookForAt('structure', 5, 42)[0];
+	var linkTo = Game.spawns.Spawn1.room.lookForAt('structure', 12, 8)[1];
+
+	var sendLink = linkFrom.transferEnergy(linkTo);
+	// console.log(sendLink);
+	
+
+
     
     // ARRAYS GO HERE
 
@@ -86,7 +96,7 @@ module.exports.loop = function () {
     let room = Game.rooms[roomName];
     // room.controller.activateSafeMode();
     if (!room.controller || !room.controller.my) continue;
-    	 console.log("Room", room.name, "Energy", room.energyAvailable);
+    	 // console.log("Room", room.name, "Energy", room.energyAvailable);
 	}
 
     // how old is everyone?    
@@ -124,6 +134,8 @@ module.exports.loop = function () {
     var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');    
     var minersouth = _.filter(Game.creeps, (creep) => creep.memory.role == 'minersouth');    
     var miner_three = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner_three');    
+    var linkminer = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkminer');    
+    var linkharvester = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkharvester');    
     var basilisk = _.filter(Game.creeps, (creep) => creep.memory.role == 'basilisk');    
     var dragon = _.filter(Game.creeps, (creep) => creep.memory.role == 'dragon');    
     var healer = _.filter(Game.creeps, (creep) => creep.memory.role == 'healer');    
@@ -132,13 +144,20 @@ module.exports.loop = function () {
     var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');    
     var repairs_two = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair_two');    
     var wallrepairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallrepair');    
-	var shuttles = _.filter(Game.creeps, (creep) => creep.memory.role == 'shuttle');    
+	var shuttles = _.filter(Game.creeps, (creep) => creep.memory.role == 'shuttle'); 
+	
+	var racecar = _.filter(Game.creeps, (creep) => creep.memory.role == 'racecar'); 
+	   
 	
     Memory.harvesterTotal = harvesters.length;
     Memory.upgraderTotal = upgraders.length;
     Memory.minerTotal = miners.length;
     Memory.minersouthTotal = minersouth.length;
     Memory.miner_threeTotal = miner_three.length;
+    
+    Memory.linkminerTotal = linkminer.length;
+    Memory.linkharvesterTotal = linkharvester.length;
+    
     Memory.basiliskTotal = basilisk.length;
     Memory.dragonTotal = dragon.length;
     Memory.healerTotal = healer.length;
@@ -151,14 +170,16 @@ module.exports.loop = function () {
 	
 	
 	// CORE UNITS
-	var harvesterCount = 4;
+	var harvesterCount = 5;
 	var minerCount = 3;
 	var minersouthCount = 1;
 	var miner_threeCount = 2;
-	var upgraderCount = 6;
+	var linkminerCount = 1;
+	var linkharvesterCount = 1;
+	var upgraderCount = 8;
 	
 	// SUPPLEMENTAL
-	var repairCount = 2;
+	var repairCount = 1;
 	var repair_twoCount = 1;
 	var wallrepairCount = 2;
 	var shuttleCount = 0;
@@ -207,11 +228,18 @@ module.exports.loop = function () {
      }else if (basilisk.length < basiliskCount) { 
         var newName = Game.spawns['Spawn1'].createCreep([TOUGH,MOVE, ATTACK,HEAL], undefined, {role: 'basilisk'});
        	born(newName, "basilisk"); 
+
+	 // pro-claimer:
+     }else if (racecar < 0) { 
+        var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], "race", {role: 'racecar'});
+       	born(newName, "racecar"); 
+      
+      
       	
        	
     // post-building    
     }else if (harvesters.length < harvesterCount) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'harvester'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
     }else if (miners.length < minerCount || Memory.needminer == true) { // needminer queues the next miner right on time
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
@@ -249,6 +277,12 @@ module.exports.loop = function () {
     }else if (dragon.length < dragonCount) {
         var newName = Game.spawns['Spawn1'].createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, RANGED_ATTACK, MOVE, MOVE, MOVE, MOVE], undefined, {role: 'dragon'});
        	born(newName, "dragon"); 
+    }else if (linkminer.length < linkminerCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK, MOVE, CARRY], undefined, {role: 'linkminer'});
+       	born(newName, "linkminer"); 
+    }else if (linkharvester.length < linkharvesterCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'linkharvester'});
+       	born(newName, "linkharvester"); 
     }
 	    
     // FUNCTIONS
@@ -261,7 +295,7 @@ module.exports.loop = function () {
 			var eyecolor = eyecolorList[Math.floor(Math.random()*eyecolorList.length)];
 			var hobby = hobbyList[Math.floor(Math.random()*hobbyList.length)];
         	
-        	console.log('Coming soon: a new '+type+" named " + name +" from "+country+", with "+eyecolor+ " eyes, "+height+" sizem, and likes "+hobby);
+        	console.log('Coming soon: a new '+type+" named " + name +" from "+country+", with "+eyecolor+ " eyes, "+height+" size, and likes "+hobby);
         	statusUpdate();
         }
     }
@@ -275,13 +309,15 @@ module.exports.loop = function () {
         	Memory.minerTotal+" miner, "+
         	Memory.minersouthTotal+" minersouth, "+
         	Memory.miner_threeTotal+" miner_three, "+
+        	Memory.linkminerTotal+" linkminer, "+
+        	Memory.linkharvesterTotal+" linkharvester, "+
         	Memory.basiliskTotal+" basilisk, "+
         	Memory.dragonTotal+" dragon, "+
         	Memory.healerTotal+" healer, "+
         	Memory.demonTotal+" demon, "+
         	Memory.repairsTotal+" repairs, "+
         	Memory.repair_twoTotal+" repairs_two, "+
-        	Memory.wallrepairsTotal+" wallrepairs, and"+
+        	Memory.wallrepairsTotal+" wallrepairs, and "+
         	Memory.shuttlesTotal+" shuttles."
         	);
     }
@@ -309,6 +345,14 @@ module.exports.loop = function () {
         
         if(creep.memory.role == 'miner_three') {
             roleMiner_three.run(creep);
+        }
+        
+        if(creep.memory.role == 'linkminer') {
+            roleLinkminer.run(creep);
+        }
+        
+        if(creep.memory.role == 'linkharvester') {
+            roleLinkharvester.run(creep);
         }
         
         if(creep.memory.role == 'basilisk') {
@@ -345,6 +389,10 @@ module.exports.loop = function () {
         
         if(creep.memory.role == 'shuttle') {
             roleShuttle.run(creep);
+        }
+        
+        if(creep.memory.role == 'racecar') {
+            roleRacecar.run(creep);
         }
 
     }

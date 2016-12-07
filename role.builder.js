@@ -19,8 +19,43 @@ var rolebuilder = {
                     creep.moveTo(targets[0]);
                 }
             }else{
-                	creep.moveTo(Game.flags.boredBuilders.pos);
-                	creep.say('->');
+                	
+                	
+                	
+						var percent = 0;
+						if (creep.room.find(FIND_CONSTRUCTION_SITES) != null) {
+							percent=0.0002; // this is better for walls
+							// percent=0.75; // this is my container thing
+						} else {
+							percent=0.9;
+						}
+						var target = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: (structure) => 
+							{
+								return (structure.hits < (structure.hitsMax * percent) && (structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_WALL));
+								// return ((structure.hits < 1) && structure.structureType == STRUCTURE_RAMPART);
+							}
+						});
+						if(target != null) {
+			
+				
+				
+							/////////////////////////////////////////////////////////////////////////////////////////////////////////
+							//Damaged structure found, move and repair
+							var resp = creep.repair(target);
+				
+							// console.log(resp);
+							creep.moveTo(target);
+				
+							if(resp == ERR_NOT_IN_RANGE) {
+								creep.moveTo(target);
+							} else if (resp == OK) {
+								creep.say('R')
+							}
+			
+					}else{
+						creep.moveTo(Game.flags.boredBuilders.pos);
+					}
+	
                 }
 	    }else{
 	        
