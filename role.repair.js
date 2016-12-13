@@ -39,7 +39,7 @@ var roleRepair = {
                 //Damaged structure found, move and repair
                 var resp = creep.repair(target);
                 
-                // console.log(resp);
+                // console.log(target);
                 creep.moveTo(target);
                 
                 if(resp == ERR_NOT_IN_RANGE) {

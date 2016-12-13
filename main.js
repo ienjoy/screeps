@@ -35,6 +35,7 @@ var roleLinkharvester = require('role.linkharvester');
 var roleSmarterbuilder = require('role.smarterbuilder');
 var roleRepair = require('role.repair');
 var roleRepair_two = require('role.repair_two');
+var roleMaid = require('role.maid');
 var roleWallrepair = require('role.wallrepair');
 var roleShuttle = require('role.shuttle');
 
@@ -60,6 +61,16 @@ Object.defineProperty(RoomPosition.prototype, "isOccupied", {
 	}
 });
 
+
+
+var allrooms = []; //set up empty array
+for(let roomName in Game.rooms)
+{
+	let room = Game.rooms[roomName];	
+	roomdestination = room;
+	allrooms.push(roomdestination)
+}
+
 module.exports.loop = function () {
 
 	// clearing memory
@@ -74,10 +85,9 @@ module.exports.loop = function () {
 	var linkFrom = Game.spawns.Spawn1.room.lookForAt('structure', 5, 42)[0];
 	var linkTo = Game.spawns.Spawn1.room.lookForAt('structure', 12, 8)[1];
 
-	var sendLink = linkFrom.transferEnergy(linkTo);
+	 var sendLink = linkFrom.transferEnergy(linkTo);
 	// console.log(sendLink);
 	
-
 
     
     // ARRAYS GO HERE
@@ -103,7 +113,7 @@ module.exports.loop = function () {
     for (var creepName in Game.creeps)
     {
     	let creep = Game.creeps[creepName];
-    	if (creep.ticksToLive < 5)
+    	if (creep.ticksToLive < 10)
     	{
 			console.log(creep.name, "("+creep.memory.role+")", "will die in", creep.ticksToLive,"ticks");
     		// if we know someone is going to die soon, we can get ready with the replacement
@@ -143,6 +153,7 @@ module.exports.loop = function () {
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'); 
     var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');    
     var repairs_two = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair_two');    
+    var maids = _.filter(Game.creeps, (creep) => creep.memory.role == 'maid');    
     var wallrepairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallrepair');    
 	var shuttles = _.filter(Game.creeps, (creep) => creep.memory.role == 'shuttle'); 
 	
@@ -165,25 +176,28 @@ module.exports.loop = function () {
     Memory.buildersTotal = builders.length;
     Memory.repairsTotal = repairs.length;
     Memory.repair_twoTotal = repairs_two.length;
+    Memory.maidsTotal = maids.length;
     Memory.wallrepairsTotal = wallrepairs.length;
 	Memory.shuttlesTotal = shuttles.length;
 	
 	
+	
 	// CORE UNITS
-	var harvesterCount = 5;
+	var harvesterCount = 4;
 	var minerCount = 3;
 	var minersouthCount = 1;
 	var miner_threeCount = 2;
 	var linkminerCount = 1;
 	var linkharvesterCount = 1;
-	var upgraderCount = 8;
+	var upgraderCount = 2;
 	
 	// SUPPLEMENTAL
 	var repairCount = 1;
-	var repair_twoCount = 1;
-	var wallrepairCount = 2;
-	var shuttleCount = 0;
-	var builderCount = 3;
+	var repair_twoCount = 3;
+	var wallrepairCount = 1;
+	var maidCount = 2;
+	var shuttleCount = 7;
+	var builderCount = 8;
 	
 	// MILITARY
 	var healerCount = 0;
@@ -203,6 +217,19 @@ module.exports.loop = function () {
     
     */
     
+    // ROOM TWO
+    if (upgraders.length < 1) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "upgrader");
+    }else if (miners.length < 2) { // needminer queues the next miner right on time
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "miner");
+    }
+       
+       
+       
+    
+    
     if (miners.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,MOVE], undefined, {role: 'miner'});
        	born(newName, "miner");
@@ -219,13 +246,13 @@ module.exports.loop = function () {
 
 	/* ############################ */
 	
+	}else if (demon.length < demonCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([TOUGH, TOUGH, TOUGH, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK], undefined, {role: 'demon'});
+       	born(newName, "demon");     
 	}else if (healer.length < healerCount) { 
         var newName = Game.spawns['Spawn1'].createCreep([TOUGH, TOUGH, MOVE, MOVE, HEAL, MOVE, MOVE], undefined, {role: 'healer'});
        	born(newName, "healer"); 
-     }else if (demon.length < demonCount) {
-        var newName = Game.spawns['Spawn1'].createCreep([TOUGH, TOUGH, TOUGH, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK], undefined, {role: 'demon'});
-       	born(newName, "demon");
-     }else if (basilisk.length < basiliskCount) { 
+    }else if (basilisk.length < basiliskCount) { 
         var newName = Game.spawns['Spawn1'].createCreep([TOUGH,MOVE, ATTACK,HEAL], undefined, {role: 'basilisk'});
        	born(newName, "basilisk"); 
 
@@ -246,7 +273,7 @@ module.exports.loop = function () {
        	born(newName, "miner");
     	Memory.needminer = false;  // ok we're good again
     }else if (minersouth.length < minersouthCount || Memory.needminersouth == true) {
-		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'minersouth'});
+		var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,MOVE,MOVE,MOVE], undefined, {role: 'minersouth'});
        	born(newName, "minersouth");
        	Memory.needminersouth = false; // ok we're good again
     }else if (miner_three.length < miner_threeCount || Memory.needminer_three == true) {
@@ -259,6 +286,9 @@ module.exports.loop = function () {
 	}else if (repairs_two.length < repair_twoCount) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair_two'});
         born(newName, "repair_two");      
+	}else if (maids.length < maidCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'maid'});
+        born(newName, "maid");      
    	}else if (shuttles.length < shuttleCount) {
    		var newName = Game.spawns['Spawn1'].createCreep([CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'shuttle'});
 		born(newName, "shuttle"); 
@@ -278,10 +308,10 @@ module.exports.loop = function () {
         var newName = Game.spawns['Spawn1'].createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, RANGED_ATTACK, MOVE, MOVE, MOVE, MOVE], undefined, {role: 'dragon'});
        	born(newName, "dragon"); 
     }else if (linkminer.length < linkminerCount) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK, MOVE, CARRY], undefined, {role: 'linkminer'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'linkminer'});
        	born(newName, "linkminer"); 
     }else if (linkharvester.length < linkharvesterCount) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'linkharvester'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'linkharvester'});
        	born(newName, "linkharvester"); 
     }
 	    
@@ -317,6 +347,7 @@ module.exports.loop = function () {
         	Memory.demonTotal+" demon, "+
         	Memory.repairsTotal+" repairs, "+
         	Memory.repair_twoTotal+" repairs_two, "+
+        	Memory.maidsTotal+" maids, "+
         	Memory.wallrepairsTotal+" wallrepairs, and "+
         	Memory.shuttlesTotal+" shuttles."
         	);
@@ -381,6 +412,10 @@ module.exports.loop = function () {
         
         if(creep.memory.role == 'repair_two') {
             roleRepair_two.run(creep);
+        }
+
+        if(creep.memory.role == 'maid') {
+            roleMaid.run(creep);
         }
         
         if(creep.memory.role == 'wallrepair') {

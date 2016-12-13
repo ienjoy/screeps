@@ -43,7 +43,7 @@ var roleUpgrader = {
 				// let's see if we have any containers
 				var containers = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
-						return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_ENERGY] > creep.carryCapacity);
+						return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) && (structure.store[RESOURCE_ENERGY] > creep.carryCapacity);
 					}
 				});
 				var source = creep.pos.findClosestByPath(containers);

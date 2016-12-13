@@ -15,7 +15,7 @@ var roleWallrepair = {
 	    if(creep.memory.building) {
 	        var percent = 0;
             if (creep.room.find(FIND_CONSTRUCTION_SITES) != null) {
-                percent=0.05; // this is better for walls
+                percent=0.0002; // this is better for walls
                 // percent=0.75; // this is my container thing
             } else {
                 percent=0.9;

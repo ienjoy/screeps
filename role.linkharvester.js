@@ -44,6 +44,8 @@ var roleLinkharvester = { /** @param {Creep} creep **/
 			  
 			
 		}else{
+		
+		
 			
 			
 			/*
@@ -66,9 +68,27 @@ var roleLinkharvester = { /** @param {Creep} creep **/
 			}            
         */
         
-        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+        /*if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
 				creep.moveTo(creep.room.controller);
 			}
+        */
+        
+		// console.log("made it to the dropoff");
+			
+		var targets = creep.room.find(FIND_STRUCTURES, {
+			filter: (structure) => {
+				return (structure.structureType == STRUCTURE_STORAGE);
+			}
+		});
+		
+		if (targets.length > 0) {
+			var target = creep.pos.findClosestByRange(targets);
+			creep.transfer(target, RESOURCE_ENERGY);
+			console.log("trying to deposit");
+		}else{
+			console.log("didn't work");
+		}
+        
         
 		}
 	}		

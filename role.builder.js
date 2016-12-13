@@ -24,19 +24,20 @@ var rolebuilder = {
                 	
 						var percent = 0;
 						if (creep.room.find(FIND_CONSTRUCTION_SITES) != null) {
-							percent=0.0002; // this is better for walls
+							percent=0.07; // this is better for walls
 							// percent=0.75; // this is my container thing
 						} else {
 							percent=0.9;
 						}
 						var target = creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: (structure) => 
 							{
-								return (structure.hits < (structure.hitsMax * percent) && (structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_WALL));
+								return (structure.hits < (structure.hitsMax * percent) && (structure.structureType == STRUCTURE_RAMPART));
 								// return ((structure.hits < 1) && structure.structureType == STRUCTURE_RAMPART);
 							}
 						});
-						if(target != null) {
-			
+						
+						// if(target != null) {
+						if(1 == 2) {
 				
 				
 							/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,18 +81,18 @@ var rolebuilder = {
                 }
             }else{ // if we don't have a container, just be a normal miner instead
                 
-                /*
+                
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
-               	*/
+               	
                	
                 // creep.say('miner plz');
                 // creep.moveTo(Game.flags.boredBuilders.pos);
                 
                 // there's nothing for you, just go home and maybe there will be things there
-                creep.moveTo(Game.spawns['Spawn1'].pos);
+                // creep.moveTo(Game.spawns['Spawn1'].pos);
             }    
 	    }
 	}

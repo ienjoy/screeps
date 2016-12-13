@@ -17,10 +17,9 @@ var roleShuttle = {
 		
 	    if(creep.memory.destination != "shuttle1_dropoff") {
             creep.moveTo(Game.flags.shuttle1_pickup.pos); // go there            
-            if (Game.flags["shuttle1_pickup_adjunct"].pos.isNearTo(creep))
+            if (Game.flags["shuttle1_pickup"].pos.isNearTo(creep))
             {
-            	// console.log("made it to the pickup");
-            	
+            	console.log("made it to the pickup");
             	// let's see if we have any containers
 				var containers = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
@@ -35,24 +34,16 @@ var roleShuttle = {
 						creep.moveTo(source);
 					}
 				}else{
-					var target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-					if(target) {
-						if(creep.pickup(target) == ERR_NOT_IN_RANGE) {
-							creep.moveTo(target);
-						}
-					}
+					console.log("Something is wrong");
 				}
             	creep.memory.destination = "shuttle1_dropoff";
             }	
-            
-            // console.log(Creep.Memory.room);
-            
 	    }else{
 	    	creep.moveTo(Game.flags.shuttle1_dropoff.pos); // go there
 	    	            
             if (Game.flags["shuttle1_dropoff"].pos.isNearTo(creep))
             {
-            	// console.log("made it to the dropoff");
+            	console.log("made it to the dropoff");
             	
             	var targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -70,7 +61,7 @@ var roleShuttle = {
 			}
 				if (creep.carryCapacity != 0)
 				{
-            		creep.memory.destination = "shuttle1_pickup_adjunct";
+            		creep.memory.destination = "shuttle1_pickup";
             	}	
             }
 	    }

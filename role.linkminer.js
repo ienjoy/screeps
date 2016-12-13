@@ -36,7 +36,8 @@ var roleLinkminer = { /** @param {Creep} creep **/
 				if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
 					creep.moveTo(sources[0]);
 				}
-				*/          
+				*/  
+				creep.moveTo(6, 42);        
 			}
 			  
 			
@@ -53,7 +54,7 @@ var roleLinkminer = { /** @param {Creep} creep **/
             if (targets.length > 0) {
 				var target = creep.pos.findClosestByRange(targets);
 			    if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                    creep.moveTo(6, 42); 
                 }
 			}else{
 				creep.say("m?");
