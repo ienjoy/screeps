@@ -37,12 +37,12 @@ var roleHarvester = {
                     creep.moveTo(source);
                 }
             }else{ // if we don't have a container, just be a normal miner instead
-                /*
+                
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
-                */          
+                          
             }    
 	    
             
@@ -55,9 +55,13 @@ var roleHarvester = {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_TOWER ||
                                 structure.structureType == STRUCTURE_SPAWN ||
-                                structure.structureType == STRUCTURE_EXTENSION) && structure.energy < structure.energyCapacity;
+                                structure.structureType == STRUCTURE_EXTENSION ||
+                                structure.structureType == STRUCTURE_CONTAINER ||
+                                structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
                     }
             });
+            
+            // console.log(targets);
             
             if (targets.length > 0) {
 				var target = creep.pos.findClosestByRange(targets);
@@ -65,7 +69,12 @@ var roleHarvester = {
                     creep.moveTo(target);
                 }
 			}else{
-				creep.moveTo(Game.flags.boredHarvesters.pos);
+				
+				
+				if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller);
+            }
+            
 			}            
         }
 	}

@@ -61,6 +61,12 @@ Object.defineProperty(RoomPosition.prototype, "isOccupied", {
 	}
 });
 
+Object.defineProperty(RoomPosition.prototype, "isOccupiedByMiner", {
+	enumerable: true,
+	get: function() {
+		return(Game.rooms[this.roomName].lookForAt(LOOK_CREEPS,this.x,this.y).length > 0);
+	}
+});
 
 
 var allrooms = []; //set up empty array
@@ -138,10 +144,11 @@ module.exports.loop = function () {
     }
     
     
-    // debugging    
-    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');   
-    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');        
-    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');    
+    
+    // ROOM ONE    
+    var W76N52_harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.pos.roomName == "W76N52");   
+    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader'  && creep.pos.roomName == "W76N52");
+    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.pos.roomName == "W76N52");
     var minersouth = _.filter(Game.creeps, (creep) => creep.memory.role == 'minersouth');    
     var miner_three = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner_three');    
     var linkminer = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkminer');    
@@ -155,12 +162,17 @@ module.exports.loop = function () {
     var repairs_two = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair_two');    
     var maids = _.filter(Game.creeps, (creep) => creep.memory.role == 'maid');    
     var wallrepairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallrepair');    
-	var shuttles = _.filter(Game.creeps, (creep) => creep.memory.role == 'shuttle'); 
-	
+	var shuttles = _.filter(Game.creeps, (creep) => creep.memory.role == 'shuttle'); 	
 	var racecar = _.filter(Game.creeps, (creep) => creep.memory.role == 'racecar'); 
+	 
+	// ROOM TWO
+	var W75N51_harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.pos.roomName == "W75N51");   
+	var W75N51_miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.pos.roomName == "W75N51");    
+	var W75N51_upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.pos.roomName == "W75N51");       
+	var W75N51_repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair' && creep.pos.roomName == "W75N51");       
 	   
 	
-    Memory.harvesterTotal = harvesters.length;
+    Memory.harvesterTotal = W76N52_harvesters.length;
     Memory.upgraderTotal = upgraders.length;
     Memory.minerTotal = miners.length;
     Memory.minersouthTotal = minersouth.length;
@@ -182,22 +194,24 @@ module.exports.loop = function () {
 	
 	
 	
+	
+	
 	// CORE UNITS
 	var harvesterCount = 4;
-	var minerCount = 3;
-	var minersouthCount = 1;
+	var minerCount = 4;
+	var minersouthCount = 0;
 	var miner_threeCount = 2;
 	var linkminerCount = 1;
 	var linkharvesterCount = 1;
-	var upgraderCount = 2;
+	var upgraderCount = 5;
 	
 	// SUPPLEMENTAL
 	var repairCount = 1;
 	var repair_twoCount = 3;
 	var wallrepairCount = 1;
 	var maidCount = 2;
-	var shuttleCount = 7;
-	var builderCount = 8;
+	var shuttleCount = 3;
+	var builderCount = 4;
 	
 	// MILITARY
 	var healerCount = 0;
@@ -217,23 +231,27 @@ module.exports.loop = function () {
     
     */
     
-    // ROOM TWO
-    if (upgraders.length < 1) {
-        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
-		born(newName, "upgrader");
-    }else if (miners.length < 2) { // needminer queues the next miner right on time
-        var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,MOVE], undefined, {role: 'miner'});
-       	born(newName, "miner");
+    // ROOM TWO    
+    if (W75N51_harvesters.length < 2) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+       	born(newName, "W75N51 harvester");
+    }else if (W75N51_repairs.length < 3) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair'});
+       	born(newName, "W75N51 repair");
+    }else if (W75N51_miners.length < 4) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "W75N51 miner");
+    }else if (W75N51_upgraders.length < 5) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "W75N51 upgrader");
     }
        
-       
-       
-    
+      
     
     if (miners.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,MOVE], undefined, {role: 'miner'});
        	born(newName, "miner");
-    }else if (harvesters.length < 1) {
+    }else if (W76N52_harvesters.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
     }else if (upgraders.length < 1) {
@@ -265,8 +283,8 @@ module.exports.loop = function () {
       	
        	
     // post-building    
-    }else if (harvesters.length < harvesterCount) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+    }else if (W76N52_harvesters.length < harvesterCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
     }else if (miners.length < minerCount || Memory.needminer == true) { // needminer queues the next miner right on time
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});

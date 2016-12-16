@@ -79,13 +79,30 @@ var rolebuilder = {
                 if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
-            }else{ // if we don't have a container, just be a normal miner instead
+            }else{ 
                 
                 
-                var sources = creep.room.find(FIND_SOURCES);
+                // if we don't have a container, try two things
+                
+                
+                // any dropped energy?
+                var target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+				if(target) {
+				if(creep.pickup(target) == ERR_NOT_IN_RANGE) {
+					creep.moveTo(target);
+				}
+				
+				
+			}else{ // ok fine, go mine
+			
+				var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
+                
+			}
+			
+                
                	
                	
                 // creep.say('miner plz');
