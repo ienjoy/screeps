@@ -39,7 +39,7 @@ var roleMiner = { /** @param {Creep} creep **/
 					creep.harvest(sources);
 				}else{
 					// creep.say("not yet");
-					creep.memory.mining = false; // keep looking
+					// creep.memory.mining = false; // keep looking
 				}	
 				
         		
@@ -56,7 +56,17 @@ var roleMiner = { /** @param {Creep} creep **/
 					creep.harvest(sources);
 				}else{
 					// creep.say("not yet");
-					creep.memory.mining = false; // keep looking
+					// creep.memory.mining = false; // keep looking
+					
+					
+					console.log('no containers found, but that is fine... gonna mine');					
+
+					var sources = creep.room.find(FIND_SOURCES);
+					if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+						creep.moveTo(sources[0]);
+					}
+
+				
 				}	
 			
         

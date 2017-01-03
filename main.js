@@ -88,10 +88,12 @@ module.exports.loop = function () {
         }
     }
     
+	/*
 	var linkFrom = Game.spawns.Spawn1.room.lookForAt('structure', 5, 42)[0];
 	var linkTo = Game.spawns.Spawn1.room.lookForAt('structure', 12, 8)[1];
-
-	 var sendLink = linkFrom.transferEnergy(linkTo);
+	*/
+	
+	// var sendLink = linkFrom.transferEnergy(linkTo);
 	// console.log(sendLink);
 	
 
@@ -146,9 +148,9 @@ module.exports.loop = function () {
     
     
     // ROOM ONE    
-    var W76N52_harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.pos.roomName == "W76N52");   
-    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader'  && creep.pos.roomName == "W76N52");
-    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.pos.roomName == "W76N52");
+    var W76N52_harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.pos.roomName == "E15N61");   
+    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader'  && creep.pos.roomName == "E15N61");
+    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.pos.roomName == "E15N61");
     var minersouth = _.filter(Game.creeps, (creep) => creep.memory.role == 'minersouth');    
     var miner_three = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner_three');    
     var linkminer = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkminer');    
@@ -166,11 +168,13 @@ module.exports.loop = function () {
 	var racecar = _.filter(Game.creeps, (creep) => creep.memory.role == 'racecar'); 
 	 
 	// ROOM TWO
-	var W75N51_harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.pos.roomName == "W75N51");   
-	var W75N51_miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.pos.roomName == "W75N51");    
-	var W75N51_upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.pos.roomName == "W75N51");       
-	var W75N51_repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair' && creep.pos.roomName == "W75N51");       
-	   
+	
+	var E14N61_harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.pos.roomName == "E14N61");   
+	var E14N61_miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.pos.roomName == "E14N61");    
+	var E14N61_upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.pos.roomName == "E14N61");       
+	var E14N61_repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair' && creep.pos.roomName == "E14N61");       
+	var E14N61_builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.pos.roomName == "E14N61");       
+	  
 	
     Memory.harvesterTotal = W76N52_harvesters.length;
     Memory.upgraderTotal = upgraders.length;
@@ -197,21 +201,19 @@ module.exports.loop = function () {
 	
 	
 	// CORE UNITS
-	var harvesterCount = 4;
-	var minerCount = 4;
-	var minersouthCount = 0;
-	var miner_threeCount = 2;
-	var linkminerCount = 1;
-	var linkharvesterCount = 1;
+	var harvesterCount = 2;
+	var minerCount = 5;
+	var linkminerCount = 0;
+	var linkharvesterCount = 0;
 	var upgraderCount = 5;
 	
 	// SUPPLEMENTAL
 	var repairCount = 1;
-	var repair_twoCount = 3;
+	var repair_twoCount = 0;
 	var wallrepairCount = 1;
-	var maidCount = 2;
-	var shuttleCount = 3;
-	var builderCount = 4;
+	var maidCount = 0;
+	var shuttleCount = 0;
+	var builderCount = 3;
 	
 	// MILITARY
 	var healerCount = 0;
@@ -231,21 +233,44 @@ module.exports.loop = function () {
     
     */
     
-    // ROOM TWO    
-    if (W75N51_harvesters.length < 2) {
+    // ROOM TWO 
+    /*  
+    if (E14N61_harvesters.length < 2) {
         var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
-       	born(newName, "W75N51 harvester");
-    }else if (W75N51_repairs.length < 3) {
+       	born(newName, "E14N61 harvester");
+    }else if (E14N61_repairs.length < 3) {
         var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair'});
-       	born(newName, "W75N51 repair");
-    }else if (W75N51_miners.length < 4) {
+       	born(newName, "E14N61 repair");
+    }else if (E14N61_miners.length < 4) {
         var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
-       	born(newName, "W75N51 miner");
-    }else if (W75N51_upgraders.length < 5) {
+       	born(newName, "E14N61 miner");
+    }else if (E14N61_upgraders.length < 5) {
         var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
-		born(newName, "W75N51 upgrader");
+		born(newName, "E14N61 upgrader");
+    }else if (E14N61_builders.length < 3) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'builder'});
+		born(newName, "E14N61 builder");
     }
-       
+     */
+     
+     if (E14N61_harvesters.length < 1) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+       	born(newName, "E14N61 harvester");
+    }else if (E14N61_repairs.length < 1) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'repair'});
+       	born(newName, "E14N61 repair");
+    }else if (E14N61_miners.length < 1) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "E14N61 miner");
+    }else if (E14N61_upgraders.length < 1) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "E14N61 upgrader");
+    }else if (E14N61_builders.length < 1) {
+        var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+		born(newName, "E14N61 builder");
+    }
+    
+     
       
     
     if (miners.length < 1) {
@@ -255,9 +280,9 @@ module.exports.loop = function () {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
     }else if (upgraders.length < 1) {
-        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
 		born(newName, "upgrader");
-    }else if (builders.length < 0) {
+    }else if (builders.length < 1) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
 		born(newName, "builder");        
 
@@ -276,13 +301,14 @@ module.exports.loop = function () {
 
 	 // pro-claimer:
      }else if (racecar < 0) { 
-        var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE,MOVE,MOVE], "race", {role: 'racecar'});
+        var newName = Game.spawns['Spawn1'].createCreep([CLAIM,MOVE], "race", {role: 'racecar'});
        	born(newName, "racecar"); 
       
       
       	
        	
-    // post-building    
+    // post-building
+    /*    
     }else if (W76N52_harvesters.length < harvesterCount) {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'harvester'});
         born(newName, "harvester");        
@@ -332,6 +358,31 @@ module.exports.loop = function () {
         var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'linkharvester'});
        	born(newName, "linkharvester"); 
     }
+    */
+    
+    
+    }else if (W76N52_harvesters.length < harvesterCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester'});
+        born(newName, "harvester");        
+    }else if (miners.length < minerCount || Memory.needminer == true) { // needminer queues the next miner right on time
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,WORK,MOVE], undefined, {role: 'miner'});
+       	born(newName, "miner");
+    	Memory.needminer = false;  // ok we're good again
+    }else if (repairs.length < repairCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'repair'});
+        born(newName, "repair");
+   	}else if (upgraders.length < upgraderCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
+		born(newName, "upgrader"); 
+    }else if (builders.length < builderCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder'});
+		born(newName, "builder");         
+    }else if (wallrepairs.length < wallrepairCount) {
+        var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'wallrepair'});
+        born(newName, "wallrepair");    
+	}    
+    
+    
 	    
     // FUNCTIONS
     
@@ -355,19 +406,8 @@ module.exports.loop = function () {
         	Memory.upgraderTotal+" upgraders, "+        	
         	Memory.buildersTotal+" builders, "+
         	Memory.minerTotal+" miner, "+
-        	Memory.minersouthTotal+" minersouth, "+
-        	Memory.miner_threeTotal+" miner_three, "+
-        	Memory.linkminerTotal+" linkminer, "+
-        	Memory.linkharvesterTotal+" linkharvester, "+
-        	Memory.basiliskTotal+" basilisk, "+
-        	Memory.dragonTotal+" dragon, "+
-        	Memory.healerTotal+" healer, "+
-        	Memory.demonTotal+" demon, "+
-        	Memory.repairsTotal+" repairs, "+
-        	Memory.repair_twoTotal+" repairs_two, "+
-        	Memory.maidsTotal+" maids, "+
-        	Memory.wallrepairsTotal+" wallrepairs, and "+
-        	Memory.shuttlesTotal+" shuttles."
+        	Memory.repairsTotal+" repairs, and "+
+        	Memory.wallrepairsTotal+" wallrepairs."
         	);
     }
 

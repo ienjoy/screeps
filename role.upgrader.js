@@ -8,7 +8,7 @@ var roleUpgrader = {
 		desiredNumber = 0;
 		
 		upgradersHere = 0;		
-		var upgraderCheck = Game.rooms["W76N51"].find(FIND_MY_CREEPS, { filter: function(i) {
+		var upgraderCheck = Game.rooms["E15N61"].find(FIND_MY_CREEPS, { filter: function(i) {
 			// console.log(i.memory.role);
 		if(i.memory.role == 'upgrader') {
 			upgradersHere++;
@@ -34,38 +34,74 @@ var roleUpgrader = {
             }
         }else{
 			
-			if (upgradersHere < desiredNumber)
+			// if (upgradersHere < desiredNumber)
+			if (1 == 2)
 			{
 				creep.moveTo(Game.rooms["W76N51"].controller);
 				creep.say("Gotta run");
 			}else{
-		
-				// let's see if we have any containers
-				var containers = creep.room.find(FIND_STRUCTURES, {
-				filter: (structure) => {
-						return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) && (structure.store[RESOURCE_ENERGY] > creep.carryCapacity);
-					}
-				});
-				var source = creep.pos.findClosestByPath(containers);
 			
-				// ok, if we found a container, use it
-				if (source)
-				{
-					if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-						creep.moveTo(source);
-					}
-				}else{ // if we don't have a container, just be a normal miner instead
-			   
-				   /*
-					var sources = creep.room.find(FIND_SOURCES);
-					if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-						creep.moveTo(sources[0]);
-					}
-				   */ 
-				creep.moveTo(Game.flags.boredUpgraders.pos);                
-				}  
+			
+			
+			
+			
+	        
+	        // console.log('bored');
+	        // totalNumberOfDudes++;
+	        
+	        // let's see if we have any containers
+	        var containers = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_CONTAINER) &&
+                    (structure.store[RESOURCE_ENERGY] > creep.carryCapacity - creep.carry.energy);
+                    // this is an interesting trick - it'll just keep pulling as long as it can
+                }
+            });
+            var source = creep.pos.findClosestByPath(containers);
             
-            }  	    
+            // ok, if we found a container, use it
+            if (source)
+            {
+                if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
+            }else{ 
+                
+                
+                // if we don't have a container, try two things
+                
+                
+                // any dropped energy?
+                var target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+				if(target) {
+				if(creep.pickup(target) == ERR_NOT_IN_RANGE) {
+					creep.moveTo(target);
+				}
+				
+				
+			}else{ // ok fine, go mine
+			
+				var sources = creep.room.find(FIND_SOURCES);
+                if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0]);
+                }
+                
+			}
+			
+                
+               	
+               	
+                // creep.say('miner plz');
+                // creep.moveTo(Game.flags.boredBuilders.pos);
+                
+                // there's nothing for you, just go home and maybe there will be things there
+                // creep.moveTo(Game.spawns['Spawn1'].pos);
+            }    
+	    
+	    
+			
+			
+			}  	    
         }
 	}
 };
